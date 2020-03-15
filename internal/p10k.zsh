@@ -1105,7 +1105,13 @@ prompt_anaconda() {
   if (( _POWERLEVEL9K_ANACONDA_SHOW_PYTHON_VERSION )) && _p9k_python_version; then
     msg="${_p9k__ret//\%//%%} "
   fi
-  msg+="$_POWERLEVEL9K_ANACONDA_LEFT_DELIMITER${${p:t}//\%/%%}$_POWERLEVEL9K_ANACONDA_RIGHT_DELIMITER"
+  local env_name=${${p:t}//\%/%%}
+  if [[ $env_name == 'anaconda3' || $env_name == 'miniconda' ]]; then
+    msg+="(base)"
+  else
+    # msg+="($_POWERLEVEL9K_ANACONDA_LEFT_DELIMITER $env_name $_POWERLEVEL9K_ANACONDA_RIGHT_DELIMITER)"
+    msg+="($env_name)"
+  fi
   _p9k_prompt_segment "$0" "blue" "$_p9k_color1" 'PYTHON_ICON' 0 '' "$msg"
 }
 
